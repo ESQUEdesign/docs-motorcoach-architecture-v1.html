@@ -5,38 +5,40 @@
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TheMotorcoachStore.com v1.1, Website Architecture &amp; Wireframe System</title>
+<title>TheMotorcoachStore.com v1.2, Website Architecture &amp; Wireframe System</title>
+<!-- Noto Sans — OFL (SIL Open Font License), freely embeddable. Serves as the
+     dependable web body face behind the brand-book display/script stack. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 /* ====================================================
-   DOCUMENT CHROME TOKENS — reconciled to live brand
-   Brand tokens (fonts + colors) EXTRACTED 2026-06-13 from
-   themotorcoachstore.com production CSS (template_main.css,
-   HubSpot hubfs CDN). Canonical values documented in Section XII.
-   The live brand is a DARK LUXURY system — near-black (#0E0E0E)
-   + champagne gold (#B79B5D); Bosca (display, serif) +
-   Riviera Nights (body, sans). This light spec-document chrome
-   adopts the brand fonts and gold accent; a deepened gold
-   (--accent-dk) is used for accent TEXT on light surfaces to
-   hold WCAG AA, while the true brand gold (--accent) is used on
-   dark surfaces (cover, nav blocks) exactly as on the live site.
+   DOCUMENT CHROME TOKENS — reconciled to the ESQUE BRAND BOOK
+   v1.2 — 2026-06-13. Supersedes the v1.1 live-CSS extraction.
+   The brand book defines a DARK LUXURY system: near-black
+   (#0E0E0E) ground + champagne gold (#B79B5D) accent, with a
+   three-face type program — Bosca (serif display), Khmer Nettra
+   (humanist display / eyebrows + labels), and Zapfino (script,
+   for editorial flourishes). Noto Sans (OFL) is the embedded body
+   face. This light spec-document chrome adopts the brand-book
+   palette and faces; a deepened gold (--accent-dk) carries accent
+   TEXT on light surfaces to hold WCAG AA, while the true brand
+   gold (--accent) is used on dark surfaces (sticky header, cover,
+   nav blocks) exactly as in the brand book.
    ==================================================== */
-/* Brand fonts, self-hosted on the TMCS HubSpot CDN — loaded here so
-   this document renders in the real brand faces when online; falls
-   back to serif/sans-serif gracefully if the CDN is unreachable. */
+/* Brand display/script faces. Bosca is self-hosted on the TMCS
+   HubSpot CDN (loaded below). Khmer Nettra and Zapfino are
+   brand-book faces declared in the type stacks with graceful
+   fallbacks (cursive/serif) for surfaces where the licensed files
+   are unavailable; the rendered body face is Noto Sans (OFL,
+   embedded above). */
 @font-face { font-family:'Bosca'; font-weight:400; font-style:normal; font-display:swap;
   src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/raw_assets/public/motorcoach-theme/fonts/Bosca/Bosca-Regular.woff2') format('woff2'); }
 @font-face { font-family:'Bosca'; font-weight:500; font-style:normal; font-display:swap;
   src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/raw_assets/public/motorcoach-theme/fonts/Bosca/Bosca-Medium.woff2') format('woff2'); }
 @font-face { font-family:'Bosca'; font-weight:700; font-style:normal; font-display:swap;
   src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/raw_assets/public/motorcoach-theme/fonts/Bosca/Bosca-Bold.woff2') format('woff2'); }
-@font-face { font-family:'Riviera Nights'; font-weight:200; font-style:normal; font-display:swap;
-  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Ultralight.woff2') format('woff2'); }
-@font-face { font-family:'Riviera Nights'; font-weight:300; font-style:normal; font-display:swap;
-  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Light.woff2') format('woff2'); }
-@font-face { font-family:'Riviera Nights'; font-weight:400; font-style:normal; font-display:swap;
-  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Regular.woff2') format('woff2'); }
-@font-face { font-family:'Riviera Nights'; font-weight:500; font-style:normal; font-display:swap;
-  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Medium.woff2') format('woff2'); }
+html { scroll-behavior:smooth; }
 :root {
   /* Brand near-blacks — live --color-bg-main / --color-bg-alt */
   --ink:        #0E0E0E;
@@ -51,17 +53,34 @@
   --paper:      #F7F7F5;
   --paper-dk:   #ECECE8;
   --white:      #FFFFFF;
-  --font-display: 'Bosca', Georgia, 'Times New Roman', serif;            /* live display: Bosca (serif) */
-  --font-body:    'Riviera Nights', 'Helvetica Neue', Arial, sans-serif; /* live body: Riviera Nights (sans) */
+  --font-display: 'Bosca', Georgia, 'Times New Roman', serif;                  /* brand book display: Bosca (serif) */
+  --font-label:   'Khmer Nettra', 'Bosca', Georgia, serif;                     /* brand book secondary display: eyebrows, labels */
+  --font-script:  'Zapfino', 'Snell Roundhand', 'Apple Chancery', cursive;     /* brand book script: editorial flourishes */
+  --font-body:    'Noto Sans', 'Helvetica Neue', Arial, sans-serif;            /* embedded body: Noto Sans (OFL) */
   --shadow-sm: 0 2px 12px rgba(14,14,14,0.08);
   --shadow-md: 0 8px 40px rgba(14,14,14,0.14);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:var(--font-body); font-weight:300; background:var(--paper); color:var(--ink); line-height:1.6; }
-.doc-section { max-width:1080px; margin:0 auto; padding:64px 32px; }
-.eyebrow { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dk); margin-bottom:10px; }
+/* Sticky guideline header — persistent spec chrome with section jump-nav */
+.guide-header { position:sticky; top:0; z-index:1000; background:var(--ink); color:var(--white);
+  border-bottom:1px solid var(--accent); display:flex; align-items:center; justify-content:space-between;
+  gap:20px; padding:10px 24px; box-shadow:var(--shadow-md); }
+.guide-header .gh-brand { font-family:var(--font-label); font-size:11px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--white); white-space:nowrap; }
+.guide-header .gh-brand em { font-family:var(--font-script); font-style:normal; font-weight:400;
+  text-transform:none; letter-spacing:0; font-size:16px; color:var(--accent); }
+.guide-header nav { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; }
+.guide-header nav a { font-family:var(--font-body); font-size:10px; font-weight:600; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--silver); text-decoration:none; transition:color .15s ease; }
+.guide-header nav a:hover { color:var(--gold-hover); }
+.guide-header .gh-ver { font-family:var(--font-body); font-size:9px; font-weight:700; letter-spacing:2px;
+  color:var(--ink); background:var(--accent); padding:4px 9px; border-radius:2px; white-space:nowrap; }
+@media (max-width:880px) { .guide-header nav { display:none; } }
+.doc-section { max-width:1080px; margin:0 auto; padding:64px 32px; scroll-margin-top:64px; }
+.eyebrow { font-family:var(--font-label); font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dk); margin-bottom:10px; }
 .section-h { font-family:var(--font-display); font-size:38px; font-weight:400; color:var(--ink); margin-bottom:8px; }
-.section-h em { font-style:italic; color:var(--accent-dk); }
+.section-h em { font-family:var(--font-script); font-style:italic; font-weight:400; color:var(--accent-dk); }
 .section-sub { font-size:14px; color:var(--steel); margin-bottom:32px; }
 .section-divider { border:none; border-top:1px solid var(--silver); max-width:1080px; margin:0 auto; }
 .note-box { background:var(--white); border-left:3px solid var(--ink); padding:16px 20px; margin-bottom:16px; font-size:13px; box-shadow:var(--shadow-sm); }
@@ -99,7 +118,7 @@ table.spec td code { white-space:nowrap; }
 .cover { background:var(--ink); color:var(--white); text-align:center; padding:120px 32px 100px; }
 .cover-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:6px 16px; margin-bottom:28px; }
 .cover-title { font-family:var(--font-display); font-size:54px; font-weight:400; line-height:1.15; }
-.cover-title em { font-style:italic; color:var(--accent); }
+.cover-title em { font-family:var(--font-script); font-style:italic; font-weight:400; color:var(--accent); }
 .cover-sub { font-size:13px; letter-spacing:1px; color:var(--silver); margin-top:18px; }
 .wf { background:var(--white); border:1px solid var(--silver); margin-top:14px; box-shadow:var(--shadow-sm); }
 .wf-label { background:var(--ink-mid); color:var(--white); font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:8px 12px; display:flex; justify-content:space-between; }
@@ -113,11 +132,29 @@ table.spec td code { white-space:nowrap; }
 </head>
 <body>
 
+<!-- ============ STICKY GUIDELINE HEADER ============ -->
+<header class="guide-header">
+  <div class="gh-brand">TMCS <em>Architecture &amp; Design</em></div>
+  <nav>
+    <a href="#architecture">I · Architecture</a>
+    <a href="#navigation">II · Nav</a>
+    <a href="#homepage">III · Home</a>
+    <a href="#inventory">IV · Inventory</a>
+    <a href="#pillars">V · Pillars</a>
+    <a href="#design">XII · Design</a>
+    <a href="#hubspot">XIV · HubSpot</a>
+    <a href="#seo">XV · SEO/AEO</a>
+    <a href="#keywords">XVI · Keywords</a>
+    <a href="#changelog">Changelog</a>
+  </nav>
+  <span class="gh-ver">v1.2</span>
+</header>
+
 <!-- ============ COVER ============ -->
 <div class="cover">
   <div class="cover-badge">ESQUE Design · Style Guidelines Agent III</div>
   <div class="cover-title">TheMotorcoachStore.com<br><em>Architecture &amp; Design</em></div>
-  <div class="cover-sub">Website Structure, Navigation, Wireframes &amp; Design System · v1.1 — Brand tokens + Clearbox reconciliation<br>Prepared June 2026 · Supersedes flat-IA production site · Design tokens reconciled to live brand · Section I diffed against the Clearbox Proposal</div>
+  <div class="cover-sub">Website Structure, Navigation, Wireframes &amp; Design System · v1.2 — Brand-book palette &amp; type program + sticky guideline chrome<br>Prepared June 2026 · Supersedes flat-IA production site · Design tokens reconciled to the ESQUE brand book (Bosca · Khmer Nettra · Zapfino; Noto Sans body) · Section I diffed against the Clearbox Proposal</div>
 </div>
 
 <!-- ============ STATUS / INPUTS ============ -->
@@ -409,12 +446,17 @@ table.spec td code { white-space:nowrap; }
     <tr><td><code>--color-overlay</code></td><td><code>rgba(21,20,21,0.82)</code></td><td>Media / modal overlay scrim</td></tr>
     <tr><td><code>--color-error</code></td><td><code>#EE4B4D</code></td><td>Form validation error</td></tr>
   </table>
-  <div class="ds-group-title">Brand Fonts — self-hosted woff2 (TMCS HubSpot CDN)</div>
+  <div class="ds-group-title">Brand-Book Type Program — v1.2</div>
+  <div class="note-box">
+    <p><span class="badge red">Brand book ✓ — v1.2 · 2026-06-13</span> The ESQUE brand book specifies a <strong>three-face display program</strong> over an OFL body face. This document's chrome now renders in that program. <em>Divergence to reconcile:</em> the <strong>live</strong> production CSS currently serves <code>Riviera Nights</code> as its body sans (documented in the extraction tables above); the brand book calls for <code>Noto Sans</code> as the embeddable body. Confirm with client whether the live body face migrates to Noto Sans, or Riviera Nights is retained as the production body and Noto Sans serves only as the OFL fallback.</p>
+  </div>
   <table class="spec">
-    <tr><th>Family</th><th>Role</th><th>Weights (woff2)</th></tr>
-    <tr><td><code>Bosca</code> (serif)</td><td>Display — all headings <code>h1–h6</code>, titles</td><td>400 Regular · 500 Medium · 700 Bold</td></tr>
-    <tr><td><code>Riviera Nights</code> (sans)</td><td>Body, UI, navigation, forms</td><td>200 Ultralight · 300 Light · 400 Regular · 500 Medium</td></tr>
-    <tr><td><code>Outfit</code> (sans)</td><td>HubSpot form labels (secondary)</td><td>Google Fonts variable 100–900</td></tr>
+    <tr><th>Family</th><th>Role in brand book</th><th>Source / weights</th></tr>
+    <tr><td><code>Bosca</code> (serif)</td><td>Primary display — headings <code>h1–h6</code>, unit titles, section heads</td><td>Self-hosted woff2 (TMCS HubSpot CDN) · 400 / 500 / 700</td></tr>
+    <tr><td><code>Khmer Nettra</code> (humanist)</td><td>Secondary display — eyebrows, labels, sticky-header brand mark</td><td>Brand-book face · stack fallback → Bosca / serif</td></tr>
+    <tr><td><code>Zapfino</code> (script)</td><td>Editorial flourishes — cover-title <em>em</em>, section-head <em>em</em>, header wordmark accent</td><td>Brand-book face · stack fallback → Snell Roundhand / Apple Chancery / cursive</td></tr>
+    <tr><td><code>Noto Sans</code> (sans)</td><td>Body, UI, navigation, spec tables — the rendered body face</td><td>Google Fonts · <strong>OFL (SIL Open Font License)</strong> · embedded · 300 / 400 / 500 / 600 / 700</td></tr>
+    <tr><td><code>Outfit</code> (sans)</td><td>HubSpot form labels (secondary, live)</td><td>Google Fonts variable 100–900</td></tr>
   </table>
 </div>
 
@@ -496,6 +538,7 @@ table.spec td code { white-space:nowrap; }
     <tr><th>Version</th><th>Date</th><th>Notes</th></tr>
     <tr><td>v1.0 draft</td><td>2026-06-13</td><td>Initial architecture re-derived from live crawl-surface audit (web-search recon; direct fetch blocked). IA consolidation, redirect map, nav system, wireframe outlines, schema plan, SEO/AEO + keyword strategy, HubSpot CRM plan.</td></tr>
     <tr><td>v1.1</td><td>2026-06-13</td><td><strong>① DONE</strong> — exact fonts/colors extracted from live <code>template_main.css</code>; Section XII populated with canonical brand tokens (near-black + champagne gold, Bosca + Riviera Nights) and document chrome re-skinned. <strong>② DONE</strong> — retrieved the Clearbox proposal and diffed Section I: factual corrections (400-pt CPO, hours, 100k sq ft showroom, $93K–$2.15M, 58 units) and IA additions (Ceramic Coating, Paint &amp; Body, PDI, RV Insurance, Trade-In, ShowHauler/Featherlite) folded in; strategy conflicts (URL nesting, nav model, brands, auction, design tokens) tabled for client sign-off in the Section I reconciliation table. <strong>③ OPEN</strong> — confirm inventory data source (HubDB). <strong>④ OPEN</strong> — full per-unit redirect map from the confirmed 30-URL sitemap.</td></tr>
+    <tr><td>v1.2</td><td>2026-06-13</td><td><strong>① DONE</strong> — document chrome reconciled to the ESQUE <strong>brand book</strong>: brand-book palette (near-black <code>#0E0E0E</code> + champagne gold <code>#B79B5D</code>) applied across the sticky header, cover, and accents. <strong>② DONE</strong> — three-face brand-book type program wired in: <code>Bosca</code> (display) · <code>Khmer Nettra</code> (eyebrows/labels) · <code>Zapfino</code> (editorial script flourishes), each with graceful fallbacks. <strong>③ DONE</strong> — <code>Noto Sans</code> embedded as the body face via Google Fonts under the <strong>OFL (SIL Open Font License)</strong>, superseding the live Riviera Nights body in the document chrome. <strong>④ DONE</strong> — persistent <strong>sticky guideline header</strong> added: brand wordmark + section jump-nav (I–XVI + changelog) + version badge. <strong>⑤ OPEN</strong> — confirm whether the live production body migrates from Riviera Nights to Noto Sans, or Noto Sans serves as OFL fallback only (see Section XII note). <strong>⑥ OPEN</strong> — supply licensed Khmer Nettra / Zapfino web files (woff2) or confirm fallbacks. Carries forward v1.1 open items ③ HubDB source and ④ per-unit redirect map.</td></tr>
   </table>
 </div>
 
