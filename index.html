@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheMotorcoachStore.com v1.1, Website Architecture &amp; Wireframe System</title>
+<style>
+/* ====================================================
+   DOCUMENT CHROME TOKENS — reconciled to live brand
+   Brand tokens (fonts + colors) EXTRACTED 2026-06-13 from
+   themotorcoachstore.com production CSS (template_main.css,
+   HubSpot hubfs CDN). Canonical values documented in Section XII.
+   The live brand is a DARK LUXURY system — near-black (#0E0E0E)
+   + champagne gold (#B79B5D); Bosca (display, serif) +
+   Riviera Nights (body, sans). This light spec-document chrome
+   adopts the brand fonts and gold accent; a deepened gold
+   (--accent-dk) is used for accent TEXT on light surfaces to
+   hold WCAG AA, while the true brand gold (--accent) is used on
+   dark surfaces (cover, nav blocks) exactly as on the live site.
+   ==================================================== */
+/* Brand fonts, self-hosted on the TMCS HubSpot CDN — loaded here so
+   this document renders in the real brand faces when online; falls
+   back to serif/sans-serif gracefully if the CDN is unreachable. */
+@font-face { font-family:'Bosca'; font-weight:400; font-style:normal; font-display:swap;
+  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/raw_assets/public/motorcoach-theme/fonts/Bosca/Bosca-Regular.woff2') format('woff2'); }
+@font-face { font-family:'Bosca'; font-weight:500; font-style:normal; font-display:swap;
+  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/raw_assets/public/motorcoach-theme/fonts/Bosca/Bosca-Medium.woff2') format('woff2'); }
+@font-face { font-family:'Bosca'; font-weight:700; font-style:normal; font-display:swap;
+  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/raw_assets/public/motorcoach-theme/fonts/Bosca/Bosca-Bold.woff2') format('woff2'); }
+@font-face { font-family:'Riviera Nights'; font-weight:200; font-style:normal; font-display:swap;
+  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Ultralight.woff2') format('woff2'); }
+@font-face { font-family:'Riviera Nights'; font-weight:300; font-style:normal; font-display:swap;
+  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Light.woff2') format('woff2'); }
+@font-face { font-family:'Riviera Nights'; font-weight:400; font-style:normal; font-display:swap;
+  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Regular.woff2') format('woff2'); }
+@font-face { font-family:'Riviera Nights'; font-weight:500; font-style:normal; font-display:swap;
+  src:url('https://47169059.fs1.hubspotusercontent-na1.net/hubfs/47169059/motorcoach-theme/assets/fonts/RivieraNights/RivieraNights-Medium.woff2') format('woff2'); }
+:root {
+  /* Brand near-blacks — live --color-bg-main / --color-bg-alt */
+  --ink:        #0E0E0E;
+  --ink-mid:    #1A1A1A;
+  /* Brand champagne gold — live --color-gold (#B79B5D) / hover #FFE498.
+     --accent = true brand gold (on dark); --accent-dk = deepened gold for AA text on light. */
+  --accent:     #B79B5D;
+  --accent-dk:  #8A7338;
+  --gold-hover: #FFE498;
+  --steel:      #8C8C8C;   /* live --color-text-gray */
+  --silver:     #DCDCDC;   /* live --color-bg-gray-light */
+  --paper:      #F7F7F5;
+  --paper-dk:   #ECECE8;
+  --white:      #FFFFFF;
+  --font-display: 'Bosca', Georgia, 'Times New Roman', serif;            /* live display: Bosca (serif) */
+  --font-body:    'Riviera Nights', 'Helvetica Neue', Arial, sans-serif; /* live body: Riviera Nights (sans) */
+  --shadow-sm: 0 2px 12px rgba(14,14,14,0.08);
+  --shadow-md: 0 8px 40px rgba(14,14,14,0.14);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font-body); font-weight:300; background:var(--paper); color:var(--ink); line-height:1.6; }
+.doc-section { max-width:1080px; margin:0 auto; padding:64px 32px; }
+.eyebrow { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-dk); margin-bottom:10px; }
+.section-h { font-family:var(--font-display); font-size:38px; font-weight:400; color:var(--ink); margin-bottom:8px; }
+.section-h em { font-style:italic; color:var(--accent-dk); }
+.section-sub { font-size:14px; color:var(--steel); margin-bottom:32px; }
+.section-divider { border:none; border-top:1px solid var(--silver); max-width:1080px; margin:0 auto; }
+.note-box { background:var(--white); border-left:3px solid var(--ink); padding:16px 20px; margin-bottom:16px; font-size:13px; box-shadow:var(--shadow-sm); }
+.note-box.pending { border-left-color:#E8A838; background:rgba(232,168,56,0.06); }
+.note-box.danger { border-left-color:var(--accent); background:rgba(183,155,93,0.08); }
+.badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:2px; margin-right:6px; }
+.badge.amber { color:#B07818; background:rgba(232,168,56,0.18); }
+.badge.red { color:var(--accent-dk); background:rgba(183,155,93,0.16); }
+code { font-size:11px; background:var(--paper-dk); padding:1px 6px; border-radius:2px; }
+.ia-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin-top:8px; }
+.ia-col { background:var(--white); box-shadow:var(--shadow-sm); }
+.ia-root { background:var(--ink); color:var(--white); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:12px 14px; }
+.ia-root.accent { background:var(--accent); color:var(--ink); }
+.ia-children { padding:10px 14px 14px; }
+.ia-child { font-size:12px; padding:6px 0; border-bottom:1px dashed var(--paper-dk); display:flex; gap:8px; align-items:baseline; }
+.ia-child small { font-size:10px; color:var(--steel); }
+.ia-child.nested { padding-left:18px; }
+.ia-dot { width:7px; height:7px; border-radius:50%; background:var(--accent); flex-shrink:0; position:relative; top:0; }
+.ia-dot.keep { background:#3C6B62; }
+.ia-dot.anchor { background:#7B8FA1; }
+.ia-dot.kill { background:#9B3B3B; }
+.legend { display:flex; flex-wrap:wrap; gap:18px; margin-top:16px; font-size:11px; color:var(--steel); }
+.legend span.dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px; }
+table.spec { width:100%; border-collapse:collapse; font-size:12px; background:var(--white); box-shadow:var(--shadow-sm); margin-top:12px; }
+table.spec th { background:var(--ink); color:var(--white); font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; text-align:left; padding:10px 12px; }
+table.spec td { padding:10px 12px; border-bottom:1px solid var(--paper-dk); vertical-align:top; }
+table.spec tr:last-child td { border-bottom:none; }
+table.spec td code { white-space:nowrap; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+.ds-group-title { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-mid); border-bottom:2px solid var(--accent); padding-bottom:8px; margin:32px 0 16px; }
+.aeo-card { background:var(--white); border:1px solid var(--silver); border-left:3px solid var(--accent); border-radius:0 3px 3px 0; padding:14px 16px; margin-bottom:12px; }
+.aeo-card .q { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--ink-mid); margin-bottom:6px; }
+.aeo-card .a { font-size:11px; color:var(--ink); line-height:1.6; margin-bottom:6px; }
+.aeo-card .t { font-size:10px; color:var(--accent-dk); font-weight:600; }
+.cover { background:var(--ink); color:var(--white); text-align:center; padding:120px 32px 100px; }
+.cover-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:6px 16px; margin-bottom:28px; }
+.cover-title { font-family:var(--font-display); font-size:54px; font-weight:400; line-height:1.15; }
+.cover-title em { font-style:italic; color:var(--accent); }
+.cover-sub { font-size:13px; letter-spacing:1px; color:var(--silver); margin-top:18px; }
+.wf { background:var(--white); border:1px solid var(--silver); margin-top:14px; box-shadow:var(--shadow-sm); }
+.wf-label { background:var(--ink-mid); color:var(--white); font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:8px 12px; display:flex; justify-content:space-between; }
+.wf-label small { font-weight:400; letter-spacing:0.5px; text-transform:none; font-style:italic; color:var(--silver); }
+.wf-row { padding:12px 16px; border-bottom:1px dashed var(--paper-dk); font-size:12px; }
+.wf-row:last-child { border-bottom:none; }
+.wf-row strong { color:var(--accent-dk); }
+.check { color:#3C6B62; font-weight:700; margin-right:6px; }
+.todo { color:#B07818; font-weight:700; margin-right:6px; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="cover-badge">ESQUE Design · Style Guidelines Agent III</div>
+  <div class="cover-title">TheMotorcoachStore.com<br><em>Architecture &amp; Design</em></div>
+  <div class="cover-sub">Website Structure, Navigation, Wireframes &amp; Design System · v1.1 — Brand tokens + Clearbox reconciliation<br>Prepared June 2026 · Supersedes flat-IA production site · Design tokens reconciled to live brand · Section I diffed against the Clearbox Proposal</div>
+</div>
+
+<!-- ============ STATUS / INPUTS ============ -->
+<div class="doc-section">
+  <div class="note-box pending">
+    <p><span class="badge amber">Pending Inputs — Blocking Items for v1.1</span></p>
+    <ul style="margin:10px 0 0 16px; font-size:13px; line-height:1.9;">
+      <li><strong>Exact brand tokens — RESOLVED 2026-06-13.</strong> Font families and hex values extracted from <code>themotorcoachstore.com</code> production CSS (<code>template_main.css</code>). Section XII now carries the canonical values and the document chrome is re-skinned to the brand: near-black <code>#0E0E0E</code> + champagne gold <code>#B79B5D</code>, Bosca (display) + Riviera Nights (body).</li>
+      <li><strong>Clearbox proposal reconciliation — RESOLVED 2026-06-13.</strong> Retrieved <code>motorcoach-clearbox-proposal.vercel.app</code> (client visitor password) and diffed it against Section I. Alignments, live-verified factual corrections, and IA additions are folded in; the genuine strategy conflicts (URL nesting, nav model, brands placement, auction program, design tokens) are captured in the <em>Section I ⇄ ClearBox Proposal — Reconciliation</em> table for client sign-off.</li>
+      <li><strong>Logo files / photo assets</strong> — gather during prototype phase.</li>
+      <li><strong>Inventory feed</strong> — confirm source of vehicle data (HubDB? DMS feed? manual entry) with ClearBox/HubSpot portal admin.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ SECTION I: SITE ARCHITECTURE ============ -->
+<hr class="section-divider">
+<div id="architecture" class="doc-section">
+  <div class="eyebrow">Section I</div>
+  <h2 class="section-h">Site <em>Architecture</em></h2>
+  <p class="section-sub">From a flat 20-page sprawl with six overlapping inventory surfaces to a consolidated four-pillar dealership ecosystem</p>
+
+  <div class="note-box">
+    <p><strong>Design principle:</strong> The Motorcoach Store is the luxury end of the RV market — Prevost, Newell, Millennium, LOKI. The site should read like a private showroom, not a classified-ads lot. Every coach earns an editorial presentation; every service earns a single authoritative URL. Navigation labels are destinations ("Coaches," "Sell or Consign," "Service"), not marketing verbs.</p>
+  </div>
+
+  <div class="note-box danger">
+    <p><span class="badge red">Current-State Audit — crawl-surface findings</span></p>
+    <ul style="margin:10px 0 0 16px; font-size:13px; line-height:1.9;">
+      <li><strong>Inventory fragmentation (cannibalization):</strong> six overlapping inventory surfaces compete for the same queries — <code>/coach/</code>, <code>/new-coaches/</code>, <code>/pre-owned/</code>, <code>/certified-pre-owned/</code>, <code>/pre-owned-showrooms/</code>, <code>/explore-showrooms/</code>. Link equity and keyword targeting are split six ways.</li>
+      <li><strong>Root-level listing slugs:</strong> vehicle detail pages live at the domain root (e.g. <code>/2010-prevost-emerald-outlaw/</code>). No hierarchy → no breadcrumbs, no inventory-hub equity flow, and sold units strand 404s at root.</li>
+      <li><strong>Inconsistent brand-showroom patterns:</strong> <code>/motorcoach-showroom-ogv/</code> vs <code>/exclusive-loki-coach-dealer/</code> — two naming systems for the same content type.</li>
+      <li><strong>Duplicate contact surfaces:</strong> <code>/contact-us/</code> and <code>/contact-us-auction/</code> split the conversion path; auction should be a routed tab, not a second page.</li>
+      <li><strong>Blog at <code>/news/</code></strong> exists but is thin; no AEO-structured answer content anywhere on the domain.</li>
+    </ul>
+  </div>
+
+  <div class="ia-grid">
+    <div class="ia-col">
+      <div class="ia-root accent">Coaches</div>
+      <div class="ia-children">
+        <div class="ia-child"><span class="ia-dot"></span> Inventory Hub <small>/coaches · consolidates /coach/ + /explore-showrooms/</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> New <small>/coaches/new ← /new-coaches/</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Pre-Owned <small>/coaches/pre-owned ← /pre-owned/</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Certified Pre-Owned <small>/coaches/certified ← /certified-pre-owned/ · 400-pt CPO program</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Pre-Delivery Inspection <small>/coaches/pdi ← /pre-delivery-inspection/ · key differentiator ★</small></div>
+        <div class="ia-child nested"><span class="ia-dot"></span> Vehicle Detail <small>/coaches/[year-make-model] · dynamic ★</small></div>
+        <div class="ia-child"><span class="ia-dot anchor"></span> Trailers &amp; Vans <small>filter facet, not URL — confirm volume</small></div>
+        <div class="ia-child" style="margin-top:6px; padding-top:8px; border-top:1px dashed var(--silver); font-style:italic;"><span class="ia-dot"></span> Inquire / Schedule Showroom Visit <small style="font-style:normal;">page-end CTA form</small></div>
+      </div>
+    </div>
+    <div class="ia-col">
+      <div class="ia-root">Brands</div>
+      <div class="ia-children">
+        <div class="ia-child"><span class="ia-dot"></span> LOKI <small>/brands/loki ← /exclusive-loki-coach-dealer/ · exclusive U.S. partner ★</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> OGV <small>/brands/ogv ← /motorcoach-showroom-ogv/</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Millennium <small>/brands/millennium · new partnership</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Prevost <small>/brands/prevost · SEO surface</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Newell <small>/brands/newell · SEO surface</small></div>
+        <div class="ia-child"><span class="ia-dot anchor"></span> 30+ pre-owned makes <small>filter facets on /coaches, no URLs</small></div>
+      </div>
+    </div>
+    <div class="ia-col">
+      <div class="ia-root">Sell or Consign</div>
+      <div class="ia-children">
+        <div class="ia-child"><span class="ia-dot"></span> Hub <small>/sell ← /sell-your-coach/</small></div>
+        <div class="ia-child"><span class="ia-dot anchor"></span> Cash Purchase <small>/sell#cash-offer · anchor §</small></div>
+        <div class="ia-child"><span class="ia-dot anchor"></span> Consignment <small>/sell#consignment · anchor §</small></div>
+        <div class="ia-child"><span class="ia-dot anchor"></span> Trade-In <small>/sell#trade-in · valuation path · sellers are buyers</small></div>
+        <div class="ia-child"><span class="ia-dot anchor"></span> Auction <small>/sell#auction · ⚠ confirm program — proposal flags /contact-us-auction/ as staging</small></div>
+        <div class="ia-child" style="margin-top:6px; padding-top:8px; border-top:1px dashed var(--silver); font-style:italic;"><span class="ia-dot"></span> Get a Valuation <small style="font-style:normal;">page-end CTA form · feeds Consignment pipeline</small></div>
+      </div>
+    </div>
+    <div class="ia-col">
+      <div class="ia-root">Service</div>
+      <div class="ia-children">
+        <div class="ia-child"><span class="ia-dot keep"></span> Service Center <small>/service · keep, rebuild</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Paint &amp; Body <small>/service/paint-body ← /paint-and-body/ · indexable page (proposal)</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Ceramic Coating <small>/service/ceramic-coating ← /ceramic-coating/ · indexable · FAQPage</small></div>
+        <div class="ia-child"><span class="ia-dot anchor"></span> Maintenance Programs <small>/service#maintenance · anchor §</small></div>
+        <div class="ia-child"><span class="ia-dot keep"></span> Schedule Appointment <small>/service/schedule ← /schedule-appointment/ · HubSpot meetings/form</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:2px;">
+    <div class="ia-col">
+      <div class="ia-root" style="background:#3A3530;">Supporting IA</div>
+      <div class="ia-children">
+        <div class="ia-child"><span class="ia-dot keep"></span> Financing <small>/financing ← /rv-financing/ · FAQPage · promote to header CTA</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> RV Insurance <small>/insurance · partner info + form (proposal)</small></div>
+        <div class="ia-child"><span class="ia-dot keep"></span> About <small>/about · keep, add team + facility + E-E-A-T signals</small></div>
+        <div class="ia-child"><span class="ia-dot keep"></span> Contact <small>/contact ← /contact-us/ · routed tabs: Sales / Service / Sell &amp; Auction</small></div>
+        <div class="ia-child"><span class="ia-dot keep"></span> News <small>/news · keep URL pattern, upgrade to AEO editorial</small></div>
+        <div class="ia-child"><span class="ia-dot"></span> Privacy / Accessibility <small>legal, footer-only</small></div>
+      </div>
+    </div>
+    <div class="ia-col">
+      <div class="ia-root" style="background:#3A3530;">Remove / Redirect <small style="opacity:0.75; font-weight:400; text-transform:none; letter-spacing:0;">— all 301</small></div>
+      <div class="ia-children">
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /coach/ → /coaches</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /new-coaches/ → /coaches/new</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /pre-owned/ → /coaches/pre-owned</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /certified-pre-owned/ → /coaches/certified</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /pre-owned-showrooms/ → /coaches/pre-owned</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /explore-showrooms/ → /coaches</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /motorcoach-showroom-ogv/ → /brands/ogv</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /exclusive-loki-coach-dealer/ → /brands/loki</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /sell-your-coach/ → /sell</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /contact-us-auction/ → /sell#auction</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /rv-financing/ → /financing</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /schedule-appointment/ → /service/schedule</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /contact-us/ → /contact</div>
+        <div class="ia-child" style="color:#9B3B3B;"><span class="ia-dot kill"></span> /[year-make-model]/ (root listings) → /coaches/[slug] <small>pattern rule + per-unit map</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="dot" style="background:#3C6B62;"></span> Existing, keep &amp; refine</span>
+    <span><span class="dot" style="background:var(--accent);"></span> New / restructured page</span>
+    <span><span class="dot" style="background:#7B8FA1;"></span> Anchor section §, no separate URL</span>
+    <span><span class="dot" style="background:#9B3B3B;"></span> Remove with 301 redirect</span>
+    <span style="color:var(--accent-dk);">★ Revenue-critical</span>
+  </div>
+
+  <div class="note-box" style="margin-top:16px;">
+    <p><strong>Anchor sections (§), not separate pages:</strong> Sub-topics (cash offer, consignment, trade-in, auction, maintenance) are scroll-anchored sections within their parent hub, not standalone URLs. This consolidates link equity into the pillar URLs, prevents thin-content pages, and keeps the crawl surface tight. Pages that <em>do</em> earn dedicated URLs: the pillars, the inventory child lists (new / pre-owned / certified), the CPO &amp; PDI program pages, brand showrooms, the distinct service pages (Paint &amp; Body, Ceramic Coating — per the ClearBox reconciliation each is a distinct keyword + FAQ surface), and individual vehicle pages — vehicle pages because each unit is a unique, high-intent transactional document; brand pages because "Prevost for sale," "Newell for sale," and "LOKI Coach dealer" are distinct high-value query families.</p>
+  </div>
+
+  <div class="note-box">
+    <p><strong>Universal Inquire CTA pattern, routed by content area:</strong> Every pillar ends in a single shared conversion module routed to a different team via a hidden <code>recipient_team</code> form field set by the page's content-area property: <strong>Coaches</strong> → sales team (with "Schedule a Showroom Visit" intent option, vehicle pages inject the unit's stock # and title), <strong>Sell or Consign</strong> → acquisition/auction team (valuation form: year, make, model, mileage, photos), <strong>Service</strong> → service writers (links to HubSpot Meetings scheduler), <strong>Home/About/Contact</strong> → general sales inbox. One form schema, one design, four routed pipelines.</p>
+  </div>
+
+  <div class="ds-group-title" style="margin-top:40px;">Section I ⇄ ClearBox Proposal — Reconciliation</div>
+  <div class="note-box">
+    <p><span class="badge red">Reconciled ✓ — 2026-06-13</span> Diffed against the ClearBox proposal (<code>motorcoach-clearbox-proposal.vercel.app</code>, retrieved with the client visitor password). The proposal is a 384-hour, 4-week HubSpot rebuild scoped at <strong>58 inventory units</strong> (48 active + 10 sold), <strong>67 inventory pages</strong>, a <strong>30-URL sitemap</strong>, and <strong>93% live-verified</strong> facts. Its architecture is an <em>optimize-in-place</em> plan; Section I is a more aggressive <em>consolidate-and-restructure</em> plan. They agree on diagnosis and differ on how far to restructure URLs and navigation.</p>
+  </div>
+  <div class="note-box">
+    <p><strong>Aligned (both documents agree):</strong> HubSpot CMS rebuild on a single structured inventory source (HubDB); high-value pages (CPO, PDI, Financing, Sell) must be promoted out of the legacy <code>More ▾</code> overflow; the Financing page needs real depth; sitewide JSON-LD schema (AutoDealer/LocalBusiness, Vehicle/Product, FAQPage, Service, Person, BreadcrumbList, Article); answer-first AEO content with a homepage entity block and per-page "Key Facts"; breadcrumbs on deep pages; add business hours everywhere; consolidate the blog to a single <code>/news/</code> path; brand pages carry "who-makes-it" editorial; founder <strong>Bradley Twait</strong>; design direction = serif display + sans body + a warm-gold accent on a dark ground.</p>
+  </div>
+  <div class="note-box">
+    <p><strong>Factual corrections adopted from the proposal (live-verified supersedes the v1.0 crawl-audit guesses):</strong></p>
+    <ul style="margin:8px 0 0 16px; font-size:13px; line-height:1.85;">
+      <li>CPO program is a <strong>400-point inspection</strong> with <strong>8-point eligibility</strong>, a <strong>90-day warranty</strong>, and <strong>lifetime owner benefits</strong> (incl. annual oil change &amp; detail) — not the "200+ point inspection / 1-yr roadside" placeholder. PDI is a <em>separate</em> program page and a top differentiator.</li>
+      <li>Showroom is a <strong>100,000 sq ft indoor showroom</strong>; hours are <strong>Mon–Sat 9am–6pm EST</strong> (the v1.0 "M–F 8:30–5" was invented — confirm with client).</li>
+      <li>Inventory spans <strong>$93K–$2.15M</strong> across Prevost, Newell, Newmar, Entegra, Tiffin, OGV, ShowHauler, Featherlite; exclusive U.S. dealer for <strong>Prevost LOKI Coach</strong>.</li>
+      <li>IA additions the v1.0 audit missed, now folded in: <strong>Ceramic Coating</strong> and <strong>Paint &amp; Body</strong> as distinct service pages; <strong>PDI</strong> as a program page; <strong>RV Insurance</strong> and <strong>Trade-In</strong> as supporting pages; <strong>ShowHauler</strong> &amp; <strong>Featherlite</strong> as new-coach lines.</li>
+      <li>Confirmed staging cruft to <code>noindex</code>/remove (not real destinations): <code>/testin-hero</code>, <code>/old_home_page_may-2026</code>, <code>/dev</code>, <code>/contact-us-auction/</code>.</li>
+    </ul>
+  </div>
+  <div class="note-box danger">
+    <p><span class="badge red">Open architectural decisions — need client sign-off</span> Genuine strategy conflicts where Section I deliberately diverges from the proposal. Each needs a call before build.</p>
+  </div>
+  <table class="spec">
+    <tr><th>Decision</th><th>Section I (this doc)</th><th>ClearBox proposal</th><th>Recommendation</th></tr>
+    <tr><td>URL structure</td><td>Nested <code>/coaches/*</code> + <code>/brands/*</code> hubs with a full legacy 301 map</td><td>Keep flat root URLs (<code>/{slug}/</code>); only clean nav + sitemap</td><td>Adopt Section I nesting for SEO equity, but stage it as one redirect release with a per-unit map (changelog ④) to contain migration risk</td></tr>
+    <tr><td>Primary nav model</td><td>4 pillars (Coaches · Brands · Sell or Consign · Service) + a Schedule CTA</td><td>7 primary decisions: New Coaches · Pre-Owned · Service · Sell/Trade · Financing · Schedule · About · News · Contact</td><td>Keep 4 pillars, but promote <strong>Financing</strong> and <strong>Schedule</strong> to persistent header CTAs (proposal's valid point) rather than burying them</td></tr>
+    <tr><td>New vs Pre-Owned</td><td>Unified under one <code>/coaches</code> hub with condition children</td><td>Kept as two separate primary dropdowns</td><td>Keep the unified hub; expose New / Pre-Owned / Certified as indexable child views (satisfies both)</td></tr>
+    <tr><td>Brands</td><td>Dedicated <code>/brands/*</code> pillar (LOKI, OGV, Millennium, Prevost, Newell)</td><td>Brands nested as dropdown children under New Coaches; no Brands pillar; no Millennium</td><td>Keep <code>/brands/*</code> for query families ("LOKI dealer", "Prevost for sale"); confirm <strong>Millennium</strong> is a current post-proposal partner (live site says yes); treat Newell as a pre-owned make, not a franchise</td></tr>
+    <tr><td>Auction</td><td>Built as a real program: <code>/sell#auction</code>, absorbs <code>/contact-us-auction/</code></td><td><code>/contact-us-auction/</code> flagged as a <strong>staging page to remove</strong> — no standing auction program</td><td><strong>Confirm with client:</strong> if there is no live auction program, drop the auction section instead of building it</td></tr>
+    <tr><td>Design tokens</td><td>Section XII = live site <em>exactly</em>: near-black <code>#0E0E0E</code> + champagne gold <code>#B79B5D</code>, Bosca + Riviera Nights (current client requirement)</td><td>Proposes a <em>new</em> system: navy <code>#0F1E2D</code> + gold <code>#C4973E</code> + cream, Cormorant Garamond + Inter</td><td><strong>Confirm with client:</strong> match the live brand exactly (Section XII, current stated requirement) <em>or</em> adopt the proposal's navy-and-gold rebrand. Same family (serif display + sans body + gold), different ground color and faces</td></tr>
+    <tr><td>Inventory surfaces</td><td>Audit claims 6 overlapping surfaces incl. <code>/pre-owned/</code>, <code>/explore-showrooms/</code></td><td>Confirmed 30-URL sitemap: <code>/new-coaches/</code>, <code>/pre-owned-showrooms/</code>, <code>/certified-pre-owned/</code>, brand showrooms, <code>/coach/{slug}/</code></td><td>Rebuild the redirect map from the confirmed sitemap; some v1.0-assumed URLs (<code>/pre-owned/</code>, <code>/explore-showrooms/</code>) may not exist</td></tr>
+  </table>
+</div>
+
+<!-- ============ SECTION II: NAVIGATION ============ -->
+<hr class="section-divider">
+<div id="navigation" class="doc-section">
+  <div class="eyebrow">Section II</div>
+  <h2 class="section-h">The <em>Showroom Menu</em></h2>
+  <p class="section-sub">Persistent, conversion-first navigation modeled on the Sanctuary Menu system — re-skinned for a dealership</p>
+  <div class="wf">
+    <div class="wf-label"><span>Primary Navigation — desktop</span><small>transparent over hero → solid var(--ink) past 80px scroll</small></div>
+    <div class="wf-row"><strong>Left:</strong> TMCS logo (links home).</div>
+    <div class="wf-row"><strong>Center:</strong> Coaches · Brands · Sell or Consign · Service — Coaches and Brands open full-width editorial hover overlays (featured unit image left 40%, display-font links right 60%); Coaches overlay surfaces New / Pre-Owned / Certified + 3 featured units; Brands overlay lists LOKI, OGV, Millennium, Prevost, Newell with brand marks.</div>
+    <div class="wf-row"><strong>Right:</strong> phone number <code>941-896-4819</code> (click-to-call, persistent — dealership users convert by phone) + outlined CTA button "Schedule a Visit" → /contact.</div>
+    <div class="wf-row"><strong>Sub-nav strips:</strong> Coaches pages carry a persistent filter strip (New / Pre-Owned / Certified / All · price · year · make). Sell and Service pages carry anchor strips (§ sections above).</div>
+    <div class="wf-row"><strong>Mobile:</strong> full-page reveal, ink background, accent hamburger; click-to-call button pinned to the bottom of the open menu. Sticky bottom bar on vehicle pages: price · Call · Inquire.</div>
+    <div class="wf-row"><strong>Footer (global module):</strong> 5 columns — Brand block (logo, address 5821 24th St E Bradenton FL 34203, phone, hours Mon–Sat 9am–6pm EST, social: FB / IG / YouTube) · Coaches (New / Pre-Owned / Certified / All Inventory) · Sell &amp; Service (Sell or Consign / Auction / Service / Schedule) · Company (About / Financing / News / Contact) · Legal bar (© / Privacy / Accessibility).</div>
+  </div>
+</div>
+
+<!-- ============ SECTION III: HOMEPAGE WIREFRAME ============ -->
+<hr class="section-divider">
+<div id="homepage" class="doc-section">
+  <div class="eyebrow">Section III</div>
+  <h2 class="section-h">Homepage <em>Wireframe</em></h2>
+  <p class="section-sub">Scroll-anchored chapters on a single URL: #inventory · #brands · #sell · #service · #about · #inquire</p>
+  <div class="wf">
+    <div class="wf-label"><span>/ — chapter sequence</span><small>three-layer hero legibility stack · WCAG AA</small></div>
+    <div class="wf-row"><strong>1 · Hero:</strong> full-bleed coach exterior video/photo. H1 (SEO-bearing, not a tagline): <em>"Luxury Motorcoaches for Sale — New, Pre-Owned &amp; Certified | Bradenton, FL."</em> Dual CTA: "Browse Inventory" (filled accent) / "Sell Your Coach" (outlined). AEO definitional paragraph (120–150 words) directly below the fold: who TMCS is, Bradenton FL, 100,000 sq ft indoor showroom, brands carried, services offered.</div>
+    <div class="wf-row"><strong>2 · #inventory:</strong> featured-units rail (6–9 units from HubDB, ItemList schema), tabs New / Pre-Owned / Certified → /coaches children.</div>
+    <div class="wf-row"><strong>3 · #brands:</strong> brand band — LOKI (exclusive U.S. partner badge), OGV, Millennium, Prevost, Newell → /brands/* showrooms.</div>
+    <div class="wf-row"><strong>4 · #sell:</strong> "Sell or Consign" split panel — cash purchase / consignment / auction, single CTA → /sell.</div>
+    <div class="wf-row"><strong>5 · #service:</strong> service center band — maintenance, body &amp; paint, all luxury brands serviced → /service.</div>
+    <div class="wf-row"><strong>6 · #about:</strong> trust band — founded in Bradenton, owner Bradley Twait, 100,000 sq ft indoor showroom, 400-point CPO inspection (8-pt eligibility), 90-day warranty, lifetime owner benefits, review stars (aggregate) → /about.</div>
+    <div class="wf-row"><strong>7 · #inquire:</strong> universal routed CTA form + map/NAP block (LocalBusiness signals).</div>
+  </div>
+</div>
+
+<!-- ============ SECTION IV: INVENTORY HUB ============ -->
+<hr class="section-divider">
+<div id="inventory" class="doc-section">
+  <div class="eyebrow">Section IV</div>
+  <h2 class="section-h">Inventory <em>Hub &amp; Vehicle Detail</em></h2>
+  <p class="section-sub">/coaches — the single canonical inventory surface, with a sticky filter bar and editorial unit cards</p>
+  <div class="wf">
+    <div class="wf-label"><span>/coaches — hub</span><small>ItemList schema · filters are query params, canonical to /coaches</small></div>
+    <div class="wf-row"><strong>Sticky filter bar:</strong> Condition (New / Pre-Owned / Certified) · Make · Year · Price · Length · Slides. Condition filters deep-link to the three child URLs (which are pre-filtered, indexable views with their own H1/meta); all other facets are <code>noindex</code> query params canonicalized to the parent.</div>
+    <div class="wf-row"><strong>Unit card:</strong> hero photo, year-make-model (display font), price (or "Inquire"), mileage, length, condition badge, CPO badge where applicable. Sold units keep their URL with a "Sold — see similar" state (no 404s, preserves equity and backlinks).</div>
+  </div>
+  <div class="wf">
+    <div class="wf-label"><span>/coaches/[year-make-model-stock] — vehicle detail</span><small>dynamic template ★ · Vehicle + Offer + BreadcrumbList schema</small></div>
+    <div class="wf-row"><strong>1 · Gallery:</strong> full-width media gallery (photos + YouTube walkthrough embed, VideoObject schema).</div>
+    <div class="wf-row"><strong>2 · Spec block:</strong> H1 = "[Year] [Make] [Model] for Sale"; price, mileage, engine, length, slides, generator hours, stock #, VIN — structured table mirrored in Vehicle schema fields.</div>
+    <div class="wf-row"><strong>3 · Editorial description:</strong> 200+ words per unit (AEO + long-tail), condition report, CPO inspection summary where applicable.</div>
+    <div class="wf-row"><strong>4 · Financing strip:</strong> monthly-payment estimate link → /financing.</div>
+    <div class="wf-row"><strong>5 · Inquire:</strong> routed CTA with injected stock # + "Schedule a Showroom Visit" + click-to-call; sticky mobile bottom bar (price · Call · Inquire).</div>
+    <div class="wf-row"><strong>6 · Similar units rail</strong> + breadcrumb back to /coaches (internal-linking mesh).</div>
+  </div>
+</div>
+
+<!-- ============ SECTION V: SELL / CONSIGN + SERVICE + SUPPORTING ============ -->
+<hr class="section-divider">
+<div id="pillars" class="doc-section">
+  <div class="eyebrow">Section V</div>
+  <h2 class="section-h">Sell, Service &amp; <em>Supporting Pages</em></h2>
+  <p class="section-sub">Wireframe outlines for the remaining pillar and supporting templates</p>
+  <div class="wf">
+    <div class="wf-label"><span>/sell — Sell or Consign hub</span><small>FAQPage schema · valuation form feeds Consignment pipeline</small></div>
+    <div class="wf-row">Hero H1 "Sell Your Motorcoach — Cash Offer, Consignment, or Auction." Three-path selector → #cash-offer (we buy, we handle paperwork/title/pickup anywhere in the continental U.S.) · #consignment (showroom presentation, marketing reach) · #auction (auction program + event calendar). Page-end valuation form: year / make / model / mileage / photos / asking price. FAQ band: "How does consignment work?", "How fast is a cash offer?", "What does the auction cost?"</div>
+  </div>
+  <div class="wf">
+    <div class="wf-label"><span>/service — Service Center</span><small>AutoRepair schema nested under AutoDealer</small></div>
+    <div class="wf-row">Hero H1 "Luxury Motorcoach Service &amp; Repair — Bradenton, FL." Bands: #maintenance (scheduled service, warranty protection, diagnostics — Newell, Prevost, Entegra, Newmar, Tiffin and most luxury brands) · #body-paint (fiberglass, gel coat, aluminum) · facility band (bays, climate control) · CTA → /service/schedule (HubSpot Meetings embed + service request form → Service Hub ticket pipeline).</div>
+  </div>
+  <div class="wf">
+    <div class="wf-label"><span>/brands/[brand] — brand showroom template</span><small>one template, five instances at launch</small></div>
+    <div class="wf-row">Hero with brand mark + partnership status (LOKI: "Exclusive U.S. Sales &amp; Service Partner" ★). Brand story (AEO: "Who makes LOKI coaches?"), current inventory rail filtered to brand (live HubDB query), service capability note, routed Inquire. H1 pattern: "[Brand] Motorcoaches for Sale — Authorized [Dealer/Partner]".</div>
+  </div>
+  <div class="wf">
+    <div class="wf-label"><span>/financing · /about · /contact · /news</span><small>supporting templates</small></div>
+    <div class="wf-row"><strong>/financing:</strong> H1 "Motorcoach &amp; Luxury RV Financing." Process explainer (finance manager negotiates with lenders), FAQ with FAQPage schema ("Can you finance a 15-year-old coach?", "What term lengths are available?"), extended-warranty band, CTA.</div>
+    <div class="wf-row"><strong>/about:</strong> founding story, Bradley Twait profile (Person schema, E-E-A-T), facility/showroom tour (100,000 sq ft), CPO program explainer (8-pt eligibility, 400-pt inspection, 90-day warranty, lifetime owner benefits) + separate PDI explainer, team grid, reviews band.</div>
+    <div class="wf-row"><strong>/contact:</strong> routed tabs — Sales / Service / Sell &amp; Auction — single form module with <code>recipient_team</code> routing; NAP + hours + map + click-to-call.</div>
+    <div class="wf-row"><strong>/news:</strong> editorial hub for AEO content (see Section VII queries); announcement archive (Millennium partnership etc.); Article schema per post.</div>
+  </div>
+</div>
+
+<!-- ============ SECTION XII: DESIGN SYSTEM ============ -->
+<hr class="section-divider">
+<div id="design" class="doc-section">
+  <div class="eyebrow">Section XII</div>
+  <h2 class="section-h">Design <em>System</em></h2>
+  <p class="section-sub">Tokens extracted from the live themotorcoachstore.com production CSS — the canonical brand source of truth</p>
+  <div class="note-box">
+    <p><span class="badge red">Extracted ✓ — 2026-06-13</span> Source: <code>themotorcoachstore.com</code> production stylesheet <code>template_main.css</code> (HubSpot <code>hubfs</code> CDN). Procedure run: fetched <code>/</code>, enumerated the linked CSS, resolved the <code>@font-face</code> loads and the <code>:root</code> custom-property palette, and traced <code>font-family</code> bindings on <code>body</code> / headings / buttons.</p>
+    <p style="margin-top:10px;"><strong>Key finding — the live brand is a dark luxury system:</strong> near-black <code>#0E0E0E</code> grounds with a single champagne-gold accent <code>#B79B5D</code> (used 164× across the CSS; every primary button/CTA is gold with near-black text). Display type is <strong>Bosca</strong> (a serif, on all <code>h1–h6</code>); body/UI type is <strong>Riviera Nights</strong> (a sans; body weight 300). Both are self-hosted woff2 on the TMCS HubSpot CDN. <em>This supersedes the v1.0 provisional navy + signal-red placeholders, which did not match the brand.</em> A secondary face, <strong>Outfit</strong> (Google Fonts), appears only on HubSpot form labels; <code>Cormorant Upright</code> is loaded but its heading rule is commented out in the live CSS (legacy, unused).</p>
+  </div>
+  <table class="spec">
+    <tr><th>Token</th><th>Slot</th><th>Value (exact, from live CSS)</th><th>Status</th></tr>
+    <tr><td><code>--font-display</code></td><td>Headings, unit titles, section heads (live <code>h1–h6</code>)</td><td><code>'Bosca', serif</code> · weights 400/500/700</td><td>Extracted ✓</td></tr>
+    <tr><td><code>--font-body</code></td><td>Body, UI, forms, spec tables (live <code>body</code>)</td><td><code>'Riviera Nights', sans-serif</code> · weights 200/300/400/500 · body 300</td><td>Extracted ✓</td></tr>
+    <tr><td><code>--font-form</code></td><td>HubSpot form labels (secondary)</td><td><code>'Outfit', sans-serif</code> (Google Fonts 100–900)</td><td>Extracted ✓</td></tr>
+    <tr><td><code>--brand-primary</code></td><td>Page ground, nav solid state, footer (live <code>--color-bg-main</code>)</td><td><code>#0E0E0E</code> · alt surface <code>#1A1A1A</code></td><td>Extracted ✓</td></tr>
+    <tr><td><code>--brand-accent</code></td><td>CTAs, eyebrows, active states, badges (live <code>--color-gold</code>)</td><td><code>#B79B5D</code> · hover <code>#FFE498</code> · CTA text near-black</td><td>Extracted ✓</td></tr>
+    <tr><td><code>--brand-text</code></td><td>Primary text on dark ground</td><td><code>#FFFFFF</code> · on-light <code>#181818</code></td><td>Extracted ✓</td></tr>
+    <tr><td><code>--brand-neutral</code></td><td>Backgrounds, cards, dividers, muted text</td><td>gray-light <code>#DCDCDC</code> · border <code>#2B2B2B</code> · muted <code>#C7C7C7</code> · gray <code>#8C8C8C</code></td><td>Extracted ✓</td></tr>
+    <tr><td>Spacing</td><td>Base-4 scale, section padding 80–120px</td><td>per ESQUE system</td><td>fixed</td></tr>
+    <tr><td>Hero stack</td><td>media → atmospheric ::before → scrim ::after → text-shadowed copy</td><td>per ESQUE system</td><td>fixed · WCAG AA</td></tr>
+  </table>
+  <div class="ds-group-title">Full Brand Palette — live <code>:root</code> tokens (verbatim)</div>
+  <table class="spec">
+    <tr><th>Live variable</th><th>Hex / value</th><th>Role</th></tr>
+    <tr><td><code>--color-bg-main</code></td><td><code>#0E0E0E</code></td><td>Primary background · nav solid · footer</td></tr>
+    <tr><td><code>--color-bg-alt</code></td><td><code>#1A1A1A</code></td><td>Alternate / card surface</td></tr>
+    <tr><td><code>--color-bg-gray-light</code></td><td><code>#DCDCDC</code></td><td>Light section background</td></tr>
+    <tr><td><code>--color-gold</code></td><td><code>#B79B5D</code></td><td>Brand accent — CTAs, links, active states</td></tr>
+    <tr><td><code>--color-gold-hover</code></td><td><code>#FFE498</code></td><td>Accent hover</td></tr>
+    <tr><td><code>--color-text-main</code></td><td><code>#FFFFFF</code></td><td>Primary text (on dark)</td></tr>
+    <tr><td><code>--color-text-dark</code></td><td><code>#181818</code></td><td>Text on light surfaces</td></tr>
+    <tr><td><code>--color-text-muted</code></td><td><code>#C7C7C7</code></td><td>Muted text</td></tr>
+    <tr><td><code>--color-text-gray</code></td><td><code>#8C8C8C</code></td><td>Secondary / meta text</td></tr>
+    <tr><td><code>--color-text-mid</code></td><td><code>#5D5D5D</code></td><td>Mid-tone text</td></tr>
+    <tr><td><code>--color-text-placeholder</code></td><td><code>#A4A4A4</code></td><td>Form placeholders</td></tr>
+    <tr><td><code>--color-border-dark</code></td><td><code>#2B2B2B</code></td><td>Dividers / borders on dark</td></tr>
+    <tr><td><code>--color-selected</code></td><td><code>#484848</code></td><td>Selected / pressed state</td></tr>
+    <tr><td><code>--color-overlay</code></td><td><code>rgba(21,20,21,0.82)</code></td><td>Media / modal overlay scrim</td></tr>
+    <tr><td><code>--color-error</code></td><td><code>#EE4B4D</code></td><td>Form validation error</td></tr>
+  </table>
+  <div class="ds-group-title">Brand Fonts — self-hosted woff2 (TMCS HubSpot CDN)</div>
+  <table class="spec">
+    <tr><th>Family</th><th>Role</th><th>Weights (woff2)</th></tr>
+    <tr><td><code>Bosca</code> (serif)</td><td>Display — all headings <code>h1–h6</code>, titles</td><td>400 Regular · 500 Medium · 700 Bold</td></tr>
+    <tr><td><code>Riviera Nights</code> (sans)</td><td>Body, UI, navigation, forms</td><td>200 Ultralight · 300 Light · 400 Regular · 500 Medium</td></tr>
+    <tr><td><code>Outfit</code> (sans)</td><td>HubSpot form labels (secondary)</td><td>Google Fonts variable 100–900</td></tr>
+  </table>
+</div>
+
+<!-- ============ SECTION XIV: HUBSPOT CRM ============ -->
+<hr class="section-divider">
+<div id="hubspot" class="doc-section">
+  <div class="eyebrow">Section XIV</div>
+  <h2 class="section-h">HubSpot <em>CRM Integration</em></h2>
+  <p class="section-sub">The current site is HubSpot CMS (ClearBox build) — the rebuild stays on HubSpot and deepens the integration</p>
+  <table class="spec">
+    <tr><th>Surface</th><th>Implementation</th></tr>
+    <tr><td>Inventory</td><td>HubDB table <code>inventory</code>: stock #, VIN, year, make, model, condition (new/pre-owned/certified), price, mileage, length, slides, photos, YouTube ID, status (available/pending/sold), description. Dynamic page template bound to /coaches/[slug]. Status=sold flips the page to "Sold" state — never deletes.</td></tr>
+    <tr><td>Forms</td><td>Single inquiry form schema + hidden <code>recipient_team</code> + <code>stock_number</code> context fields. Valuation form (sell) with file upload. Service request form → Service Hub tickets.</td></tr>
+    <tr><td>Pipelines</td><td><strong>Sales</strong>: Inquiry → Qualified → Showroom Visit → Offer → Closed Won/Lost. <strong>Acquisition/Consignment</strong>: Valuation Request → Appraised → Offer Made → Acquired/Consigned → Listed. <strong>Service</strong>: ticket pipeline per appointment.</td></tr>
+    <tr><td>Automation</td><td>Routing workflows per <code>recipient_team</code>; sold-unit "similar inventory" nurture email; consignment status updates to sellers; review-request workflow post-delivery and post-service (feeds aggregate rating).</td></tr>
+    <tr><td>Meetings</td><td>HubSpot Meetings embeds: showroom visit (sales calendar) + service appointment (service writers).</td></tr>
+  </table>
+</div>
+
+<!-- ============ SECTION XV: SEO & AEO ============ -->
+<hr class="section-divider">
+<div id="seo" class="doc-section">
+  <div class="eyebrow">Section XV</div>
+  <h2 class="section-h">SEO &amp; AEO <em>Strategy</em></h2>
+  <p class="section-sub">Traditional search + answer-engine optimization, built into the architecture from day one</p>
+  <div class="note-box">
+    <p><strong>Strategic context:</strong> Aggregators (RV Trader, RVT.com, Autotrader RV) currently outrank the dealer for its own inventory queries, and AI engines answer "where to buy a used Prevost" from those aggregators. The consolidation in Section I plus the schema and answer-content program below puts TMCS's own voice in front of both crawlers and answer engines — no luxury-coach competitor is investing in AEO yet.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <div class="ds-group-title">SEO Architecture Principles</div>
+      <div class="note-box"><p><strong>1 · One H1 per page, always descriptive.</strong> "Pre-Owned Luxury Motorcoaches for Sale" — never a slogan. Vehicle pages: "[Year] [Make] [Model] for Sale."</p></div>
+      <div class="note-box"><p><strong>2 · Canonical URLs &amp; full 301 map.</strong> Every legacy URL redirects per Section I. Filter facets canonicalize to /coaches. Sold units stay live in "Sold" state. No root-level listing slugs survive.</p></div>
+      <div class="note-box"><p><strong>3 · Schema markup, 8 types.</strong> <strong>AutoDealer</strong> (LocalBusiness) sitewide w/ NAP, hours, geo; <strong>Vehicle + Offer</strong> on every unit; <strong>ItemList</strong> on inventory hubs; <strong>BreadcrumbList</strong> everywhere; <strong>FAQPage</strong> on /financing, /sell, CPO; <strong>VideoObject</strong> on walkthroughs; <strong>Person</strong> (owner) on /about; <strong>Article</strong> on /news. Current site: minimal/no structured data.</p></div>
+      <div class="note-box"><p><strong>4 · Internal linking mesh.</strong> Brand pages ↔ filtered inventory ↔ vehicle pages ↔ similar units; /sell and /financing cross-linked from every vehicle page; breadcrumbs everywhere.</p></div>
+      <div class="note-box"><p><strong>5 · Core Web Vitals.</strong> LCP &lt;2.5s (preloaded hero, WebP/AVIF via HubSpot CDN), CLS &lt;0.1 (reserved gallery dimensions), INP &lt;200ms (deferred GTM/chat). Gallery-heavy vehicle pages get strict lazy-loading below the first viewport.</p></div>
+    </div>
+    <div>
+      <div class="ds-group-title">AEO — Answer Engine Optimization</div>
+      <div class="aeo-card"><div class="q">Query: "Where can I buy a used Prevost?"</div><div class="a">Brand showroom + pre-owned hub must carry a definitional paragraph: TMCS, Bradenton FL, nationwide delivery, 100,000 sq ft indoor showroom, CPO program.</div><div class="t">Target: /brands/prevost + /coaches/pre-owned</div></div>
+      <div class="aeo-card"><div class="q">Query: "How much does a luxury motorcoach cost?"</div><div class="a">Editorial price-guide article with factual ranges by brand/age; answer engines favor comparative, factual editorial.</div><div class="t">Target: /news/luxury-motorcoach-price-guide</div></div>
+      <div class="aeo-card"><div class="q">Query: "How do I sell or consign my motorcoach?"</div><div class="a">/sell carries structured Q&amp;A (FAQPage): cash offer vs consignment vs auction, timeline, paperwork, nationwide pickup.</div><div class="t">Target: /sell · FAQPage schema, 5+ Q&amp;As</div></div>
+      <div class="aeo-card"><div class="q">Query: "What is a certified pre-owned motorcoach?"</div><div class="a">CPO explainer: 8-point eligibility, 400-point inspection, 90-day warranty, lifetime owner benefits — stated as structured facts.</div><div class="t">Target: /coaches/certified · FAQPage schema</div></div>
+      <div class="aeo-card"><div class="q">Query: "Who is the LOKI Coach dealer in the US?"</div><div class="a">Exclusive-partner statement in the first paragraph of /brands/loki; Organization schema relationship.</div><div class="t">Target: /brands/loki ★ first-mover query</div></div>
+      <div class="aeo-card"><div class="q">Query: "Motorcoach service near Tampa / Sarasota"</div><div class="a">/service carries geo-qualified copy (Bradenton, serving Tampa Bay &amp; Sarasota) + AutoRepair schema with serviceArea.</div><div class="t">Target: /service · local-pack play</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION XVI: KEYWORDS & METADATA ============ -->
+<hr class="section-divider">
+<div id="keywords" class="doc-section">
+  <div class="eyebrow">Section XVI</div>
+  <h2 class="section-h">Keyword &amp; <em>Metadata Strategy</em></h2>
+  <p class="section-sub">Target keywords by page with meta title, description direction, and H1 specification</p>
+  <table class="spec">
+    <tr><th>Page</th><th>Primary keywords</th><th>Meta title</th><th>H1</th></tr>
+    <tr><td><code>/</code></td><td>luxury motorcoach dealer, motorcoach for sale Florida</td><td>Luxury Motorcoaches for Sale | New, Pre-Owned &amp; Certified | The Motorcoach Store — Bradenton, FL</td><td>Luxury Motorcoaches for Sale — New, Pre-Owned &amp; Certified</td></tr>
+    <tr><td><code>/coaches</code></td><td>motorcoach inventory, luxury RV for sale</td><td>Luxury Motorcoach Inventory | The Motorcoach Store</td><td>Luxury Motorcoach Inventory</td></tr>
+    <tr><td><code>/coaches/new</code></td><td>new luxury motorcoach, new LOKI/OGV coach</td><td>New Luxury Motorcoaches for Sale | The Motorcoach Store</td><td>New Luxury Motorcoaches</td></tr>
+    <tr><td><code>/coaches/pre-owned</code></td><td>used Prevost for sale, pre-owned Newell</td><td>Pre-Owned Luxury Motorcoaches for Sale | The Motorcoach Store</td><td>Pre-Owned Luxury Motorcoaches</td></tr>
+    <tr><td><code>/coaches/certified</code></td><td>certified pre-owned motorcoach</td><td>Certified Pre-Owned Motorcoaches | 200+ Pt Inspection | The Motorcoach Store</td><td>Certified Pre-Owned Motorcoaches</td></tr>
+    <tr><td><code>/coaches/[unit]</code></td><td>[year make model] for sale</td><td>[Year] [Make] [Model] for Sale | The Motorcoach Store</td><td>[Year] [Make] [Model] for Sale</td></tr>
+    <tr><td><code>/brands/prevost</code></td><td>Prevost dealer Florida, Prevost for sale</td><td>Prevost Motorcoaches for Sale | The Motorcoach Store</td><td>Prevost Motorcoaches for Sale</td></tr>
+    <tr><td><code>/brands/loki</code></td><td>LOKI Coach dealer, LOKI Coach USA</td><td>LOKI Coach — Exclusive U.S. Dealer | The Motorcoach Store</td><td>LOKI Coach — Exclusive U.S. Sales &amp; Service Partner</td></tr>
+    <tr><td><code>/sell</code></td><td>sell my motorcoach, RV consignment Florida, motorcoach auction</td><td>Sell Your Motorcoach — Cash Offer, Consignment &amp; Auction | The Motorcoach Store</td><td>Sell Your Motorcoach — Cash, Consignment, or Auction</td></tr>
+    <tr><td><code>/service</code></td><td>motorcoach service Florida, Prevost service center, RV body shop</td><td>Luxury Motorcoach Service &amp; Body Shop | Bradenton, FL | The Motorcoach Store</td><td>Luxury Motorcoach Service &amp; Repair</td></tr>
+    <tr><td><code>/financing</code></td><td>motorcoach financing, luxury RV loan</td><td>Motorcoach &amp; Luxury RV Financing | The Motorcoach Store</td><td>Motorcoach &amp; Luxury RV Financing</td></tr>
+    <tr><td><code>/about</code></td><td>The Motorcoach Store Bradenton</td><td>About The Motorcoach Store | Luxury Motorcoach Dealership — Bradenton, FL</td><td>The Motorcoach Store — Bradenton, Florida</td></tr>
+  </table>
+</div>
+
+<!-- ============ APPENDIX ============ -->
+<hr class="section-divider">
+<div id="changelog" class="doc-section">
+  <div class="eyebrow">Appendix</div>
+  <h2 class="section-h">Changelog &amp; <em>Open Items</em></h2>
+  <table class="spec">
+    <tr><th>Version</th><th>Date</th><th>Notes</th></tr>
+    <tr><td>v1.0 draft</td><td>2026-06-13</td><td>Initial architecture re-derived from live crawl-surface audit (web-search recon; direct fetch blocked). IA consolidation, redirect map, nav system, wireframe outlines, schema plan, SEO/AEO + keyword strategy, HubSpot CRM plan.</td></tr>
+    <tr><td>v1.1</td><td>2026-06-13</td><td><strong>① DONE</strong> — exact fonts/colors extracted from live <code>template_main.css</code>; Section XII populated with canonical brand tokens (near-black + champagne gold, Bosca + Riviera Nights) and document chrome re-skinned. <strong>② DONE</strong> — retrieved the Clearbox proposal and diffed Section I: factual corrections (400-pt CPO, hours, 100k sq ft showroom, $93K–$2.15M, 58 units) and IA additions (Ceramic Coating, Paint &amp; Body, PDI, RV Insurance, Trade-In, ShowHauler/Featherlite) folded in; strategy conflicts (URL nesting, nav model, brands, auction, design tokens) tabled for client sign-off in the Section I reconciliation table. <strong>③ OPEN</strong> — confirm inventory data source (HubDB). <strong>④ OPEN</strong> — full per-unit redirect map from the confirmed 30-URL sitemap.</td></tr>
+  </table>
+</div>
+
+</body>
+</html>
