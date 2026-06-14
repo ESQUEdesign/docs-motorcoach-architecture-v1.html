@@ -148,7 +148,11 @@ body{background:var(--white);color:var(--ink);}
    To use ONE photo for all ten, set every entry to the same path, or just
    change DEFAULT_IMAGE below and leave the list empty.
    Any entry that fails to load falls back to the built-in vector coach.   */
-const DEFAULT_IMAGE = "";   // optional single image used for every slot
+/* PLACEHOLDER: a real top-down bus photo from Wikimedia Commons (CC BY-SA 3.0),
+   loaded via Special:FilePath so it hotlinks straight to the file. Used for all
+   ten slots for now — replace with your own coach photos when ready (clear
+   DEFAULT_IMAGE and fill COACH_IMAGES, or repoint this URL). */
+const DEFAULT_IMAGE = "https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_roof_markings_on_London_bus.PNG";
 const COACH_IMAGES = [
   "images/coach-01.png",
   "images/coach-02.png",
