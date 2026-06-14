@@ -148,22 +148,22 @@ body{background:var(--white);color:var(--ink);}
    To use ONE photo for all ten, set every entry to the same path, or just
    change DEFAULT_IMAGE below and leave the list empty.
    Any entry that fails to load falls back to the built-in vector coach.   */
-/* PLACEHOLDER: a real top-down bus photo from Wikimedia Commons (CC BY-SA 3.0),
-   loaded via Special:FilePath so it hotlinks straight to the file. Used for all
-   ten slots for now — replace with your own coach photos when ready (clear
-   DEFAULT_IMAGE and fill COACH_IMAGES, or repoint this URL). */
-const DEFAULT_IMAGE = "https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_roof_markings_on_London_bus.PNG";
+/* PLACEHOLDERS: ten DISTINCT real bus photos from LoremFlickr (hotlinked).
+   Each "lock" seed returns a different image. These are stand-ins — swap in
+   your own top-view coach photos later (e.g. "images/coach-01.png").
+   Any URL that fails to load falls back to the built-in vector coach. */
+const DEFAULT_IMAGE = "";
 const COACH_IMAGES = [
-  "images/coach-01.png",
-  "images/coach-02.png",
-  "images/coach-03.png",
-  "images/coach-04.png",
-  "images/coach-05.png",
-  "images/coach-06.png",
-  "images/coach-07.png",
-  "images/coach-08.png",
-  "images/coach-09.png",
-  "images/coach-10.png",
+  "https://loremflickr.com/600/1400/bus?lock=1",
+  "https://loremflickr.com/600/1400/bus?lock=2",
+  "https://loremflickr.com/600/1400/bus?lock=3",
+  "https://loremflickr.com/600/1400/bus?lock=4",
+  "https://loremflickr.com/600/1400/bus?lock=5",
+  "https://loremflickr.com/600/1400/bus?lock=6",
+  "https://loremflickr.com/600/1400/bus?lock=7",
+  "https://loremflickr.com/600/1400/bus?lock=8",
+  "https://loremflickr.com/600/1400/bus?lock=9",
+  "https://loremflickr.com/600/1400/bus?lock=10",
 ];
 
 const VECTOR = '<svg viewBox="0 0 100 380"><use href="#coach"/></svg>';
