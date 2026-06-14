@@ -160,22 +160,23 @@ body{background:var(--white);color:var(--ink);}
    To use ONE photo for all ten, set every entry to the same path, or just
    change DEFAULT_IMAGE below and leave the list empty.
    Any entry that fails to load falls back to the built-in vector coach.   */
-/* PLACEHOLDERS: ten DISTINCT real bus photos from LoremFlickr (hotlinked).
-   Each "lock" seed returns a different image. These are stand-ins — swap in
-   your own top-view coach photos later (e.g. "images/coach-01.png").
-   Any URL that fails to load falls back to the built-in vector coach. */
+/* PLACEHOLDERS: ten DISTINCT real photographs from Picsum (picsum.photos).
+   These reliably hotlink (no API key) so real photos actually render — they
+   are generic stand-ins, NOT buses. Replace each with your own top-view coach
+   photo (e.g. "images/coach-01.png"). Any URL that fails falls back to the
+   built-in vector coach. */
 const DEFAULT_IMAGE = "";
 const COACH_IMAGES = [
-  "https://loremflickr.com/600/1400/bus?lock=1",
-  "https://loremflickr.com/600/1400/bus?lock=2",
-  "https://loremflickr.com/600/1400/bus?lock=3",
-  "https://loremflickr.com/600/1400/bus?lock=4",
-  "https://loremflickr.com/600/1400/bus?lock=5",
-  "https://loremflickr.com/600/1400/bus?lock=6",
-  "https://loremflickr.com/600/1400/bus?lock=7",
-  "https://loremflickr.com/600/1400/bus?lock=8",
-  "https://loremflickr.com/600/1400/bus?lock=9",
-  "https://loremflickr.com/600/1400/bus?lock=10",
+  "https://picsum.photos/seed/coach-01/600/1400",
+  "https://picsum.photos/seed/coach-02/600/1400",
+  "https://picsum.photos/seed/coach-03/600/1400",
+  "https://picsum.photos/seed/coach-04/600/1400",
+  "https://picsum.photos/seed/coach-05/600/1400",
+  "https://picsum.photos/seed/coach-06/600/1400",
+  "https://picsum.photos/seed/coach-07/600/1400",
+  "https://picsum.photos/seed/coach-08/600/1400",
+  "https://picsum.photos/seed/coach-09/600/1400",
+  "https://picsum.photos/seed/coach-10/600/1400",
 ];
 
 const VECTOR = '<svg viewBox="0 0 100 380"><use href="#coach"/></svg>';
